@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis Financiero</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .container {
+            max-width: 1100px;
+            margin: 50px auto;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .card {
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .chart-container {
+            width: 100%;
+            height: 400px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg" style="background-color: #1428a0;">
+        <div class="container">
+            <button onclick="window.location.href='index.html'">Predecir Gastos</button>
+        </div>
+    </nav>
+    <div class="container">
+        <h2 class="text-center">Análisis Financiero</h2>
+        {% if prediction %}
+        <div class="card text-center bg-light mb-3">
+            <h3 class="text-success">Predicción de Gasto: {{ prediction }}</h3>
+        </div>
+        {% endif %}
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <h5>Distribución de Gastos Mensuales</h5>
+                    <canvas id="barChart"></canvas>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <h5>Tendencia de Gastos Mensuales</h5>
+                    <canvas id="scatterChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        {% if indicadores %}
+        <h3 class="text-center mt-4">Indicadores Financieros</h3>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <h5>Ingreso Disponible</h5>
+                    <p>$ {{ indicadores["ingreso_disponible"] }}</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <h5>Ratio de Endeudamiento</h5>
+                    <p>{{ indicadores["ratio_endeudamiento"] }}%</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <h5>Ahorro Mensual</h5>
+                    <p>$ {{ indicadores["ahorro_mensual"] }}</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var labels = {{ labels | tojson | safe }};
+        var predicciones = {{ predicciones | tojson | safe }};
+
+        var barCtx = document.getElementById('barChart').getContext('2d');
+        new Chart(barCtx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: "Gastos Mensuales ($)",
+                    data: predicciones,
+                    backgroundColor: "#1428a0"
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Distribución de Gastos Mensuales'
+                    }
+                }
+            }
+        });
+
+        var scatterCtx = document.getElementById('scatterChart').getContext('2d');
+        new Chart(scatterCtx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: "Tendencia de Gastos Mensuales",
+                    data: predicciones,
+                    backgroundColor: "rgba(255, 61, 0, 0.2)",
+                    borderColor: "#ff3d00",
+                    fill: true,
+                    tension: 0.3,
+                    pointRadius: 5,
+                    pointBackgroundColor: "#ff3d00"
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Tendencia de Gastos Mensuales'
+                    }
+                }
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

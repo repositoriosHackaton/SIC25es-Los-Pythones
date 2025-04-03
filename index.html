@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predicción de Gastos</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+<link rel"stylesheet" href="static/style.css">
+    <script>
+        function validarFormulario(event) {
+            let edad = document.getElementById("edad").value;
+            let salario = document.getElementById("salario").value;
+            let dependientes = document.getElementById("dependientes").value;
+
+            if (edad < 18 || salario < 365 || dependientes < 0) {
+                alert("Verifique los valores ingresados.");
+                event.preventDefault();
+                return false;
+            }
+
+            console.log("Formulario enviado");
+            return true;
+        }
+    </script>
+</head>
+<body style="background-color: #F0F0F0">
+    <nav class="navbar navbar-expand-lg" style="background-color: #1428a0;">
+        <div class="container">
+		<button onclick="window.location.href='index.html'">Predecir Gastos</button>
+        </div>
+    </nav>
+    <div style="max-width: 500px; margin: 50px auto; padding: 20px; border-radius: 10px; background-color: white; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);">
+        <h2 class="text-center">Ingrese sus datos</h2>
+        <form onsubmit="return validarFormulario(event)" method="post" action="/predict">
+            <div class="mb-3">
+                <label for="edad" class="form-label">Edad:</label>
+                <input type="number" id="edad" name="Edad" min="18" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="salario" class="form-label">Salario (USD):</label>
+                <input type="number" id="salario" name="Salario" min="365" step="0.01" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="dependientes" class="form-label">Dependientes:</label>
+                <input type="number" id="dependientes" name="Dependientes" min="0" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="educacion" class="form-label">Nivel de Educación:</label>
+                <select id="educacion" name="Educacion" class="form-control" required>
+                    <option value="1">Primaria</option>
+                    <option value="2">Secundaria</option>
+                    <option value="3">Universitaria</option>
+                    <option value="4">Postgrado</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="vivienda" class="form-label">Tipo de Vivienda:</label>
+                <select id="vivienda" name="Vivienda" class="form-control" required>
+                    <option value="1">Propia</option>
+                    <option value="2">Alquilada</option>
+                    <option value="3">Hipotecada</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="region" class="form-label">Región:</label>
+                <select id="region" name="Region" class="form-control" required>
+                    <option value="1">Urbana</option>
+                    <option value="2">Rural</option>
+                </select>
+            </div>
+            <button type="submit" class="btn w-100" style="background-color: #1428a0; color:white">Predecir</button>
+        </form>
+        <h3 class="text-center mt-4">O bien, subir archivo CSV</h3>
+        <form method="post" action="/upload" enctype="multipart/form-data">
+    <div class="mb-3">
+        <input type="file" name="file" class="form-control" accept=".csv" required>
+    </div>
+    <button type="submit" class="btn btn-secondary w-100">Subir y Analizar</button>
+</form>
+    </div>
+</body>
+</html>
