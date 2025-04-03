@@ -105,4 +105,3 @@ Si deseas contribuir al proyecto, por favor realiza un fork y envía un pull req
 ---
 
 ¡Gracias por usar el Proyecto de Predicción de Gastos Mensuales! ¡Esperamos que encuentres útil esta herramienta para predecir tus gastos mensuales!
-```
