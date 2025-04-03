@@ -14,6 +14,34 @@ Este proyecto tiene como objetivo predecir los gastos mensuales de una persona c
 - `venv/`: Contiene el entorno virtual del proyecto.
 - `requirements.txt`: Contiene las dependencias necesarias para ejecutar el proyecto.
 
+```
+proyecto_prediccion_gastos/
+│── data/
+│   ├── dataset_gastos_mensuales.csv
+│
+│── models/
+│   ├── modelo_gastos.pth
+│   ├── scaler.pkl
+│
+│── src/
+│   ├── data_loader.py
+│   ├── model.py
+│   ├── train.py
+│   ├── predict.py
+│   ├── evaluate.py
+│   ├── app.py
+│
+│── templates/
+│   ├── index.html
+│   ├── analysis.html
+│
+│── uploads/
+│
+│── venv/
+│
+── requirements.txt
+```
+
 ## Instalación
 
 1. Crear un entorno virtual:
